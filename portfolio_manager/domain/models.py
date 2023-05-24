@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class Position(BaseModel):
-    ticker: str
+    symbol: str
     shares: float
     price: float
 
