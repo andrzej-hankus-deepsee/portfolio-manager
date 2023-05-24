@@ -8,7 +8,7 @@ class Position(BaseModel):
 
 
 class Portfolio(BaseModel):
-    id: int
+    id : int | None = None
     name: str
     cash: float
     positions: list[Position]

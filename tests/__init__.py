@@ -16,12 +16,11 @@ class BaseIntegrationTestCase(IsolatedAsyncioTestCase):
     ):
         self.mocker = mocker
         self.bootstrap = Bootstrap()
+        yield
+        self.bootstrap.database.clean()
 
     def setUp(self) -> None:
         self.client = TestClient(app=api)
-
-    def normalize_dt_for_mongo(self, dt):
-        return dt.replace(microsecond=1000 * (dt.microsecond // 1000))
 
 
 class BaseE2ETestCase(BaseIntegrationTestCase):
