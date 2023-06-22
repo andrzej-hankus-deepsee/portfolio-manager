@@ -2,7 +2,7 @@ from portfolio_manager.shared.schemas import BaseSchema
 
 class PositionSchema(BaseSchema):
     symbol: str
-    shares: float
+    shares: int
     price: float
 
 class PortfolioSchema(BaseSchema):

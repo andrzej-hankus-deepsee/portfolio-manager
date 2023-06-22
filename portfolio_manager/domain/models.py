@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class Position(BaseModel):
     symbol: str
-    shares: float
+    shares: int
     price: float
 
 
