@@ -9,7 +9,7 @@
   - the price changes may impact the portfolio
     
 - [ ] When the price of the stock in users portfolio changes significantly the portfolio is rebalanced
-  - if stock is in portfolio gained more than 10% in value the system sells 50% of the gain
+  - if stock that is in portfolio gained more than 10% in value the system sells 50% of the gain
     - the gained cash should be added to cash in portfolio
     - the position should be reduced
     
@@ -26,6 +26,11 @@
   - The way you design the solution
   - The way you design API
   - The way you write tests
+
+# Assumptions
+- The system does not allow partial stocks, so the number of stocks in portfolio is always integer
+- The system should attempt to sell only full stocks
+- The selling process should be mocked, but please keep in mind that in real world it would require an integration with external system
 
 
 # Blueprint
