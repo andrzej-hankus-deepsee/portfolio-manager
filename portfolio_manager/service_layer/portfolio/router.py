@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from portfolio_manager.bootstrap import get_bootstrap, Bootstrap
 from portfolio_manager.service_layer.portfolio.schemas import PortfolioSchema, PortfoliosSchema
@@ -19,12 +19,17 @@ async def create_portfolio(
 async def get_portfolios(
         bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> PortfoliosSchema:
-    return {"portfolios": []}
+    return {"portfolios": await bootstrap.portfolio_repository.get_many()}
 
 
 @router.get("/{id}")
 async def get_portfolio(
-        id_: int,
+        id: int,
         bootstrap: Bootstrap = Depends(get_bootstrap)
 ) -> PortfolioSchema:
-    return {}
+    portfolio = await bootstrap.portfolio_repository.get_one(id_=id)
+    
+    if portfolio is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+    
+    return portfolio

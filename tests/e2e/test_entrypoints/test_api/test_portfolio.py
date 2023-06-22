@@ -4,11 +4,33 @@ from tests import BaseE2ETestCase
 
 class TestExchangeFeed(BaseE2ETestCase):
 
+    def setUp(self):
+        super().setUp()
+        self.bootstrap.database.portfolios = [
+            Portfolio(
+                id=1,
+                name='portfolio-1',
+                cash=100000.00,
+                positions=[
+                    Position(
+                        symbol='AAPL',
+                        shares=100,
+                        price=10.00,
+                    ),
+                    Position(
+                        symbol='CMG',
+                        shares=50,
+                        price=5.00,
+                    )
+                ]
+            )
+        ]
+
     def test_create_portfolio(self):
         response = self.client.post(
             "/api/v1/portfolios",
             json={
-                "name": 'portfolio-1',
+                "name": 'portfolio-2',
                 "cash": 100000.00,
                 "positions": [
                     {
@@ -28,11 +50,28 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert response.status_code == 201
 
         portfolios = self.bootstrap.database.portfolios
-        assert len(portfolios) == 1
+        assert len(portfolios) == 2
         assert portfolios == [
             Portfolio(
                 id=1,
                 name='portfolio-1',
+                cash=100000.00,
+                positions=[
+                    Position(
+                        symbol='AAPL',
+                        shares=100,
+                        price=10.00,
+                    ),
+                    Position(
+                        symbol='CMG',
+                        shares=50,
+                        price=5.00,
+                    )
+                ]
+            ),
+            Portfolio(
+                id=2,
+                name='portfolio-2',
                 cash=100000.00,
                 positions=[
                     Position(

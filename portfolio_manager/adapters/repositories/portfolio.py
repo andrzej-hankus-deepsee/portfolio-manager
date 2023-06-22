@@ -25,6 +25,7 @@ class AbstractPortfolioRepository(abc.ABC):
 class PortfolioRepository(AbstractPortfolioRepository):
 
     async def get_many(self, page: int | None = None, size: int | None = None) -> list[Portfolio]:
+        ## TODO Add paging 
         return self.portfolios
 
     async def update_one(self, portfolio: Portfolio) -> bool:
