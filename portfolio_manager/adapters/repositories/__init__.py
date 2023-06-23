@@ -1,4 +1,8 @@
 from portfolio_manager.adapters.repositories.portfolio import (
     AbstractPortfolioRepository,
-    PortfolioRepository
+    PortfolioRepository,
+)
+from portfolio_manager.adapters.repositories.ticker import (
+    AbstractTickerRepository,
+    TickerRepository,
 )
