@@ -1,11 +1,23 @@
-from portfolio_manager.domain.models import Position, Portfolio
+from portfolio_manager.domain.models import Position, Portfolio, Ticker
 from tests import BaseE2ETestCase
 
 
 class TestExchangeFeed(BaseE2ETestCase):
 
     def setUp(self):
-        super().setUp()
+        super().setUp()        
+        self.bootstrap.database.tickers = [
+            Ticker(
+                id=1,
+                symbol="AAPL",
+                price=100.0,
+            ),
+            Ticker(
+                id=2,
+                symbol="CMG",
+                price=50.0,
+            )
+        ]
         self.bootstrap.database.portfolios = [
             Portfolio(
                 id=1,
@@ -15,12 +27,10 @@ class TestExchangeFeed(BaseE2ETestCase):
                     Position(
                         symbol='AAPL',
                         shares=100,
-                        price=10.00,
                     ),
                     Position(
                         symbol='CMG',
                         shares=50,
-                        price=5.00,
                     )
                 ]
             )
@@ -36,12 +46,10 @@ class TestExchangeFeed(BaseE2ETestCase):
                     {
                         'symbol': 'AAPL',
                         'shares': 100,
-                        'price': 10.00,
                     },
                     {
                         'symbol': 'CMG',
                         'shares': 50,
-                        'price': 5.00,
                     }
                 ]
             }
@@ -104,12 +112,12 @@ class TestExchangeFeed(BaseE2ETestCase):
                         {
                             'symbol': 'AAPL',
                             'shares': 100,
-                            'price': 10.00,
+                            'price': 100 * 100.0,
                         },
                         {
                             'symbol': 'CMG',
                             'shares': 50,
-                            'price': 5.00,
+                            'price': 50 * 50.0,
                         }
                     ]
                 }
@@ -130,12 +138,12 @@ class TestExchangeFeed(BaseE2ETestCase):
                 {
                     'symbol': 'AAPL',
                     'shares': 100,
-                    'price': 10.00,
+                    'price': 100 * 100.0
                 },
                 {
                     'symbol': 'CMG',
                     'shares': 50,
-                    'price': 5.00,
+                    'price': 50 * 50.0,
                 }
             ]
         }
