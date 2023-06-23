@@ -6,7 +6,7 @@ from portfolio_manager.domain.models import Ticker
 
 class AbstractTickerRepository(abc.ABC):
     @abc.abstractmethod
-    async def create_one(self, Ticker: Ticker) -> bool:
+    async def create_one(self, ticker: Ticker) -> bool:
         raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
@@ -14,26 +14,24 @@ class AbstractTickerRepository(abc.ABC):
         raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
-    async def update_one(self, Ticker: Ticker) -> bool:
+    async def update_one(self, ticker: Ticker) -> bool:
         raise NotImplementedError  # pragma: no cover
 
 
 class TickerRepository(AbstractTickerRepository):
-    async def update_one(self, Ticker: Ticker) -> bool:
-        ## TODO implement
-        pass
-
     def __init__(self, db: Database):
-        self.Tickers = db.Tickers
+        self.tickers = db.tickers
 
-    async def create_one(self, Ticker: Ticker) -> bool:
-        id_ = len(self.Tickers) + 1
-        Ticker.id = id_
-        self.Tickers.append(Ticker)
+    async def create_one(self, ticker: Ticker) -> bool:
+        self.tickers.append(ticker)
         return True
 
-    async def get_one(self, id_: int) -> Ticker | None:
-        for Ticker in self.Tickers:
-            if Ticker.id == id_:
-                return Ticker
+    async def get_one(self, symbol: int) -> Ticker | None:
+        for tickers in self.tickers:
+            if tickers.symbol == symbol:
+                return tickers
         return None
+    
+    async def update_one(self, ticker: Ticker) -> bool:
+        ## TODO implement
+        pass

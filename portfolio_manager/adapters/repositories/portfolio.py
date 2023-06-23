@@ -42,7 +42,10 @@ class PortfolioRepository(AbstractPortfolioRepository):
         return True
 
     async def get_one(self, id_: int) -> Portfolio | None:
+        result = None
         for portfolio in self.portfolios:
             if portfolio.id == id_:
-                return portfolio
-        return None
+                result = portfolio
+                continue
+        
+        return result

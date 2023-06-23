@@ -1,17 +1,16 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+class Ticker(BaseModel):
+    symbol: str = Field(..., unique=True)
+    price: float
 
 class Position(BaseModel):
-    symbol: str
+    ticker: Ticker
     shares: int
 
 class Portfolio(BaseModel):
-    id : int | None = None
+    id : int = Field(..., unique=True)
     name: str
     cash: float
     positions: list[Position]
 
-class Ticker(BaseModel):
-    id : int | None = None
-    symbol: str
-    price: float
