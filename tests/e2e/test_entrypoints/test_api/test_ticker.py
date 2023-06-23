@@ -1,6 +1,6 @@
 from tests import BaseE2ETestCase
-from portfolio_manager.domain.models import Ticker
-
+from portfolio_manager.domain.models import Ticker, TickerRecord
+import datetime, timedelta
 class TestExchangeFeed(BaseE2ETestCase):
 
     def test_create_tick(self):
@@ -15,6 +15,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert response.status_code == 201
 
         tickers = self.bootstrap.database.tickers
+        tickers_records = self.bootstrap.database.tickers
         assert len(tickers) == 3
         assert tickers == [
             Ticker(
@@ -31,7 +32,50 @@ class TestExchangeFeed(BaseE2ETestCase):
             )
         ]
 
-        ## TODO Check if ticks duplicate
+    def test_tick_recording(self):
+
+        tickers = self.bootstrap.database.tickers
+        assert len(tickers) == 2
+        assert tickers == [
+            Ticker(
+                symbol="AAPL",
+                price=100.0,
+            ),
+            Ticker(
+                symbol="CMG",
+                price=50.0,
+            )
+        ]
+        response = self.client.put(
+            "/api/v1/tickers",
+            json={
+                "symbol": "AAPL",
+                "price": 101.0,
+            }
+        )
+
+        assert response.status_code == 201
+
+        tickers = self.bootstrap.database.tickers
+        tickers_records = self.bootstrap.database.tickers
+        assert len(tickers) == 2
+        assert tickers == [
+            Ticker(
+                symbol="AAPL",
+                price=101.0,
+            ),
+            Ticker(
+                symbol="CMG",
+                price=50.0,
+            )
+        ]
+        assert len(tickers_records) == 1
+        
+        tick_record = tickers_records[0]
+
+        assert tick_record.sybol == "AAPL"
+        assert tick_record.price == 101.0
+        assert datetime.datetime.now() - tick_record.time < timedelta(seconds=5)
 
 
     def test_create_tick_with_significant_gain_for_stock_in_portfolio(self):
@@ -55,4 +99,4 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert response.status_code == 201
         
         ## TODO Check if tick recorded in database
-        ## TODO Check if tick triggered and action 
+        ## TODO Check if tick triggered an action 

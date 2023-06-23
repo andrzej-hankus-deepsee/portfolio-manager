@@ -1,8 +1,14 @@
 from pydantic import BaseModel, Field
+import datetime
 
 class Ticker(BaseModel):
     symbol: str = Field(..., unique=True)
     price: float
+
+class TickerRecord(BaseModel):
+    symbol: str
+    price: float
+    time: datetime.datetime
 
 class Position(BaseModel):
     ticker: Ticker
