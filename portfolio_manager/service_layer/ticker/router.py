@@ -31,8 +31,14 @@ async def start_ticker_message_queue():
     bootstrap = get_bootstrap()
 
     async def connect_to_rabbit_mq():
-        return await aio_pika.connect_robust("amqp://guest:guest@message_queue/")
-
+        tries = 10
+        interval = 1 
+        for _ in range(tries):
+            try:
+                return await aio_pika.connect_robust("amqp://guest:guest@message_queue/")
+            except aio_pika.exceptions.AMQPConnectionError:
+                await asyncio.sleep(interval)
+    
     async def on_message(message: aio_pika.IncomingMessage):
         async with message.process():
             data = json.loads(message.body)
@@ -43,13 +49,7 @@ async def start_ticker_message_queue():
             for key, value in data.items():
                 bootstrap.ticker_repository.update_one(ticker=TickerSchema(symbol=key, price=value))
         
-
-    # Establish a connection to RabbitMQ
-    try:
-        connection = await connect_to_rabbit_mq()
-    except:
-        await asyncio.sleep(15)
-        connection = await connect_to_rabbit_mq()
+    connection = await connect_to_rabbit_mq()
 
     print(connection)
     
