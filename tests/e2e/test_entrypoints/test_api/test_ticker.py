@@ -1,6 +1,6 @@
 from tests import BaseE2ETestCase
 from portfolio_manager.domain.models import Ticker, TickerRecord
-import datetime, timedelta
+import datetime
 class TestExchangeFeed(BaseE2ETestCase):
 
     def test_create_tick(self):
@@ -75,7 +75,7 @@ class TestExchangeFeed(BaseE2ETestCase):
 
         assert tick_record.sybol == "AAPL"
         assert tick_record.price == 101.0
-        assert datetime.datetime.now() - tick_record.time < timedelta(seconds=5)
+        assert datetime.datetime.now() - tick_record.time < datetime.timedelta(seconds=5)
 
 
     def test_create_tick_with_significant_gain_for_stock_in_portfolio(self):
