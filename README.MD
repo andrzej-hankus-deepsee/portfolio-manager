@@ -1,3 +1,6 @@
+# How to run
+  - To run the application use `docker-compose up --build`
+  - To run the tests use `docker-compose -f ./docker-compose-run-tests.yaml up --build`
 # Requirements
 
 - [ ] The user is able to define his initial investment
@@ -13,10 +16,10 @@
     - the gained cash should be added to cash in portfolio
     - the position should be reduced
     
-- [ ] The app should be able to run in docker container
+- [x] The app should be able to run in docker container
   - provide a dockerfile
   
- - [ ] Please provide instruction how to run the app in docker container and how to test it at the top of the README.md file 
+ - [x] Please provide instruction how to run the app in docker container and how to test it at the top of the README.md file 
 
 # Hints
 - Please do not focus on the user management. We take it for granted and you do not have to implement it
