@@ -3,8 +3,8 @@ from random import uniform
 import string
 import pika
 from time import sleep 
+import json
 
-# RabbitMQ connection parameters
 RABBITMQ_HOST = 'message_queue'
 RABBITMQ_PORT = 5672
 RABBITMQ_USERNAME = 'guest'
@@ -13,8 +13,11 @@ RABBITMQ_QUEUE = 'my_queue'
 
 # Generate a random message
 def generate_random_message():
-    random_string = str(round(uniform(2.5, 10.0), 2))
-    return f"APPL: {random_string}"
+    while True:
+        random_value = round(uniform(2.5, 10.0), 2)
+        yield json.dumps({"APPL": random_value})
+        random_value = round(uniform(0.5, 6), 2)
+        yield json.dumps({"CMG": random_value})
 
 def connect_to_rabbit_mq(parameters):
     tries = 10
@@ -33,14 +36,14 @@ def send_random_messages():
     parameters = pika.ConnectionParameters(RABBITMQ_HOST, RABBITMQ_PORT, '/', credentials)
 
     
-
+    value_generator = generate_random_message()
     interval = 1.5
     while True:
         connection = connect_to_rabbit_mq(parameters)
         channel = connection.channel()
         channel.queue_declare(queue=RABBITMQ_QUEUE)
 
-        message = generate_random_message()
+        message = next(value_generator)
 
         channel.basic_publish(exchange='', routing_key=RABBITMQ_QUEUE, body=message)
         print(f"Sent message: {message}", flush=True)
