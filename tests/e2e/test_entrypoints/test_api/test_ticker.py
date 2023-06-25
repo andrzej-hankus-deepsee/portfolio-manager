@@ -31,6 +31,45 @@ class TestExchangeFeed(BaseE2ETestCase):
                 price=100.0,
             )
         ]
+    
+    def test_create_tick_failed(self):
+        response = self.client.post(
+            "/api/v1/tickers",
+            json={
+                "symbol": "TEST",
+                "price": 100.0,
+            }
+        )
+
+        assert response.status_code == 201
+
+        response = self.client.post(
+            "/api/v1/tickers",
+            json={
+                "symbol": "TEST",
+                "price": 100.0,
+            }
+        )
+
+        assert response.status_code == 409
+
+        tickers = self.bootstrap.database.tickers
+
+        assert len(tickers) == 3
+        assert tickers == [
+            Ticker(
+                symbol="AAPL",
+                price=100.0,
+            ),
+            Ticker(
+                symbol="CMG",
+                price=50.0,
+            ),
+            Ticker(
+                symbol="TEST",
+                price=100.0,
+            )
+        ]
 
     def test_tick_recording(self):
 
