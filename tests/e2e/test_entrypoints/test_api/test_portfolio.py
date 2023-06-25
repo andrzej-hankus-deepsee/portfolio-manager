@@ -130,6 +130,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
     def test_price_change_in_portfolio(self):
+        assert False
         response = self.client.get(
             "/api/v1/portfolios/1"
         )
