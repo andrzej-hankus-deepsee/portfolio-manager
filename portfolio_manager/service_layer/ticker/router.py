@@ -18,16 +18,19 @@ async def create_ticker(
 ) -> SuccessSchema:
     result = await bootstrap.ticker_repository.create_one(ticker=ticker)
     if not result:
-        raise HTTPException(status_code=409, detail="Item already exists")
+        raise HTTPException(status_code=409, detail="Ticker already exists")
     return {"success": result}
 
 
-@router.put("/",status_code=201)
+@router.patch("/",status_code=201)
 async def update_ticker(
     ticker: TickerSchema, 
     bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> SuccessSchema:
-    return {"success": await bootstrap.ticker_repository.update_one(ticker=ticker)}
+    result = await bootstrap.ticker_repository.update_one(ticker=ticker)
+    if not result:
+        raise HTTPException(status_code=404, detail="Ticker not found")
+    return {"success": result}
 
 
 async def start_ticker_message_queue():

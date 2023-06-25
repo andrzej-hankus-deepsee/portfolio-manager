@@ -74,6 +74,7 @@ class TestExchangeFeed(BaseE2ETestCase):
     def test_tick_recording(self):
 
         tickers = self.bootstrap.database.tickers
+        tickers_records = self.bootstrap.database.tickers_records
         assert len(tickers) == 2
         assert tickers == [
             Ticker(
@@ -85,7 +86,10 @@ class TestExchangeFeed(BaseE2ETestCase):
                 price=50.0,
             )
         ]
-        response = self.client.put(
+
+        assert len(tickers_records) == 3
+
+        response = self.client.patch(
             "/api/v1/tickers",
             json={
                 "symbol": "AAPL",
@@ -95,8 +99,6 @@ class TestExchangeFeed(BaseE2ETestCase):
 
         assert response.status_code == 201
 
-        tickers = self.bootstrap.database.tickers
-        tickers_records = self.bootstrap.database.tickers
         assert len(tickers) == 2
         assert tickers == [
             Ticker(
@@ -108,11 +110,12 @@ class TestExchangeFeed(BaseE2ETestCase):
                 price=50.0,
             )
         ]
-        assert len(tickers_records) == 1
-        
-        tick_record = tickers_records[0]
 
-        assert tick_record.sybol == "AAPL"
+        assert len(tickers_records) == 4
+        
+        tick_record = tickers_records[-1]
+
+        assert tick_record.symbol == "AAPL"
         assert tick_record.price == 101.0
         assert datetime.datetime.now() - tick_record.time < datetime.timedelta(seconds=5)
 
@@ -125,9 +128,7 @@ class TestExchangeFeed(BaseE2ETestCase):
 
         test_portfolio = self.bootstrap.database.portfolios[0]
 
-
-
-        response = self.client.post(
+        response = self.client.patch(
             "/api/v1/tickers",
             json={
                 "symbol": ticker_symbol,

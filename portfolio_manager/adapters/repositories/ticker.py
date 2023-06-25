@@ -1,7 +1,9 @@
 import abc
 
+import datetime 
+
 from portfolio_manager.detabase import Database
-from portfolio_manager.domain.models import Ticker
+from portfolio_manager.domain.models import Ticker, TickerRecord
 
 
 class AbstractTickerRepository(abc.ABC):
@@ -21,6 +23,10 @@ class AbstractTickerRepository(abc.ABC):
 class TickerRepository(AbstractTickerRepository):
     def __init__(self, db: Database):
         self.tickers = db.tickers
+        self.records = db.tickers_records
+    
+    def record_tick(self, ticker):
+        self.records.append(TickerRecord(symbol=ticker.symbol, price=ticker.price, time=datetime.datetime.now()))
 
     async def create_one(self, ticker: Ticker) -> bool:
         for tickers_local in self.tickers:
@@ -28,6 +34,7 @@ class TickerRepository(AbstractTickerRepository):
                 return False
             
         self.tickers.append(ticker)
+        self.record_tick(ticker)
         return True
 
     async def get_one(self, symbol: int) -> Ticker | None:
@@ -37,5 +44,10 @@ class TickerRepository(AbstractTickerRepository):
         return None
     
     async def update_one(self, ticker: Ticker) -> bool:
-        ## TODO implement
-        pass
+        for tickers_local in self.tickers:
+            if tickers_local.symbol == ticker.symbol:
+                tickers_local.price = ticker.price
+                self.record_tick(ticker)
+                return True
+        
+        return False
