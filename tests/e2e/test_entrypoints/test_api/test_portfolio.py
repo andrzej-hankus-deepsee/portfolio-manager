@@ -101,7 +101,7 @@ class TestExchangeFeed(BaseE2ETestCase):
             ]
         }
 
-    def test_get_portfolio__by_id(self):
+    def test_get_portfolio_by_id(self):
         response = self.client.get(
             "/api/v1/portfolios/1"
         )
@@ -117,6 +117,71 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'ticker': {
                         'symbol': "AAPL",
                         'price': 100.0
+                    }
+                },
+                {
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+    def test_price_change_in_portfolio(self):
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            "positions": [
+                {
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "AAPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.patch(
+            "/api/v1/tickers",
+            json={
+                "symbol": "AAPL",
+                "price": 101.0,
+            }
+        )
+
+        assert response.status_code == 201
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            "positions": [
+                {
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "AAPL",
+                        'price': 101.0
                     }
                 },
                 {

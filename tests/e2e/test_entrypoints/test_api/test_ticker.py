@@ -87,7 +87,7 @@ class TestExchangeFeed(BaseE2ETestCase):
             )
         ]
 
-        assert len(tickers_records) == 3
+        records_lenght = len(tickers_records)
 
         response = self.client.patch(
             "/api/v1/tickers",
@@ -111,7 +111,7 @@ class TestExchangeFeed(BaseE2ETestCase):
             )
         ]
 
-        assert len(tickers_records) == 4
+        assert len(tickers_records) == records_lenght + 1
         
         tick_record = tickers_records[-1]
 
