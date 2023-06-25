@@ -23,13 +23,17 @@ class TickerRepository(AbstractTickerRepository):
         self.tickers = db.tickers
 
     async def create_one(self, ticker: Ticker) -> bool:
+        for tickers_local in self.tickers:
+            if tickers_local.symbol == ticker.symbol:
+                return False
+            
         self.tickers.append(ticker)
         return True
 
     async def get_one(self, symbol: int) -> Ticker | None:
-        for tickers in self.tickers:
-            if tickers.symbol == symbol:
-                return tickers
+        for ticker in self.tickers:
+            if ticker.symbol == symbol:
+                return ticker
         return None
     
     async def update_one(self, ticker: Ticker) -> bool:

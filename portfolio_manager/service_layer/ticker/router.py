@@ -3,7 +3,7 @@ import asyncio
 import sys
 import json
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from portfolio_manager.service_layer.ticker.schemas import TickerSchema
 from portfolio_manager.shared.schemas import SuccessSchema
@@ -16,11 +16,14 @@ async def create_ticker(
     ticker: TickerSchema, 
     bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> SuccessSchema:
-    return {"success": await bootstrap.ticker_repository.create_one(ticker=ticker)}
+    result = await bootstrap.ticker_repository.create_one(ticker=ticker)
+    if not result:
+        raise HTTPException(status_code=409, detail="Item already exists")
+    return {"success": result}
 
 
 @router.put("/",status_code=201)
-async def create_ticker(
+async def update_ticker(
     ticker: TickerSchema, 
     bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> SuccessSchema:
