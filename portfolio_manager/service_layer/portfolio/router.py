@@ -30,6 +30,6 @@ async def get_portfolio(
     portfolio = await bootstrap.portfolio_repository.get_one(id_=id)
     
     if portfolio is None:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Portfolio not found")
     
     return portfolio
