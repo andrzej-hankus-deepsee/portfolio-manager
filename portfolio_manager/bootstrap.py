@@ -28,3 +28,5 @@ class Bootstrap:
 
 def get_bootstrap():
     return Bootstrap()
+
+## TODO Add logging to message bus 

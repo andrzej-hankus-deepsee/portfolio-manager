@@ -12,3 +12,10 @@ async def create_ticker(
     bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> SuccessSchema:
     return {"success": await bootstrap.ticker_repository.create_one(ticker=ticker)}
+
+@router.put("/",status_code=201)
+async def create_ticker(
+    ticker: TickerSchema, 
+    bootstrap: Bootstrap = Depends(get_bootstrap),
+) -> SuccessSchema:
+    return {"success": await bootstrap.ticker_repository.update_one(ticker=ticker)}
