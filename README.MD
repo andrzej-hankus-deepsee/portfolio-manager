@@ -7,7 +7,7 @@
   - the cash
   - the stocks
 
-- [ ] The system is periodically receives prices (tickers) from stock exchange
+- [x] The system is periodically receives prices (tickers) from stock exchange
   - all the prices (tickers) should be recorded in the system in the system
   - the price changes may impact the portfolio
     
