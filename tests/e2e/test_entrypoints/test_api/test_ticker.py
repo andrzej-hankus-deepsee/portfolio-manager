@@ -74,7 +74,7 @@ class TestExchangeFeed(BaseE2ETestCase):
     def test_tick_recording(self):
 
         tickers = self.bootstrap.database.tickers
-        tickers_records = self.bootstrap.database.tickers_records
+        tickers_records = self.bootstrap.database.tickers_records["AAPL"]
         assert len(tickers) == 2
         assert tickers == [
             Ticker(

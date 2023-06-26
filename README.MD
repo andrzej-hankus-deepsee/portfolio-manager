@@ -1,4 +1,5 @@
 # How to run
+Make sure you have installed Docker and running docker deamon.
   - To run the application use `docker-compose up --build`
   - To run the tests use `docker-compose -f ./docker-compose-run-tests.yaml up --build`
 # Requirements

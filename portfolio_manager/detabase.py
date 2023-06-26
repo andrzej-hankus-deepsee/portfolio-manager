@@ -6,7 +6,7 @@ class Database:
     def __init__(self):
         self.portfolios = []
         self.tickers = []
-        self.tickers_records = []
+        self.tickers_records = {}
 
     @cached_property
     def portfolios(self):

@@ -9,7 +9,7 @@ RABBITMQ_HOST = 'message_queue'
 RABBITMQ_PORT = 5672
 RABBITMQ_USERNAME = 'guest'
 RABBITMQ_PASSWORD = 'guest'
-RABBITMQ_QUEUE = 'my_queue'
+RABBITMQ_QUEUE = 'tick_update'
 
 # Generate a random message
 def generate_random_message():

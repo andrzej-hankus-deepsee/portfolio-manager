@@ -26,7 +26,12 @@ class TickerRepository(AbstractTickerRepository):
         self.records = db.tickers_records
     
     def record_tick(self, ticker):
-        self.records.append(TickerRecord(symbol=ticker.symbol, price=ticker.price, time=datetime.datetime.now()))
+        new_record = TickerRecord(symbol=ticker.symbol, price=ticker.price, time=datetime.datetime.now())
+        if not ticker.symbol in self.records.keys():
+            self.records[ticker.symbol] = [new_record]
+        else:
+            self.records[ticker.symbol].append(new_record)
+
 
     async def create_one(self, ticker: Ticker) -> bool:
         for tickers_local in self.tickers:
