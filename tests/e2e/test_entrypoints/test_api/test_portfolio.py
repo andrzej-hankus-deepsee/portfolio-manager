@@ -145,7 +145,6 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
     def test_price_change_in_portfolio(self):
-        assert False
         response = self.client.get(
             "/api/v1/portfolios/1"
         )
@@ -155,21 +154,22 @@ class TestExchangeFeed(BaseE2ETestCase):
             "id": 1,
             "name": 'portfolio-1',
             "cash": 100000.00,
+            'orders': [],
             "positions": [
                 {
+                    'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
                         'symbol': "AAPL",
-                        'price': 100.0,
-                        'buyingPrice': 90.0
+                        'price': 100.0
                     }
                 },
                 {
+                    'buyingPrice': 40.0,
                     'shares': 50,
                     'ticker': {
                         'symbol': "CMG",
-                        'price': 50.0,
-                        'buyingPrice': 90.0
+                        'price': 50.0
                     }
                 }
             ]
@@ -179,7 +179,7 @@ class TestExchangeFeed(BaseE2ETestCase):
             "/api/v1/tickers",
             json={
                 "symbol": "AAPL",
-                "price": 101.0,
+                "price": 99.0,
             }
         )
 
@@ -194,22 +194,94 @@ class TestExchangeFeed(BaseE2ETestCase):
             "id": 1,
             "name": 'portfolio-1',
             "cash": 100000.00,
+            'orders': [],
             "positions": [
                 {
+                    'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
                         'symbol': "AAPL",
-                        'price': 101.0
-                    },
-                    'buyingPrice': 90.0
+                        'price': 99.0
+                    }
                 },
                 {
+                    'buyingPrice': 40.0,
                     'shares': 50,
                     'ticker': {
                         'symbol': "CMG",
                         'price': 50.0
-                    },
-                    'buyingPrice': 90.0
+                    }
+                }
+            ]
+        }
+
+    def test_big_price_change_in_portfolio(self):
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "AAPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.patch(
+            "/api/v1/tickers",
+            json={
+                "symbol": "AAPL",
+                "price": 101.0, # 101 / 90 = 1.12 it is 12% gain so more than 10%, so the system should sell 6% of shares
+            }
+        )
+
+        assert response.status_code == 201
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100606.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 94,
+                    'ticker': {
+                        'symbol': "AAPL",
+                        'price': 101.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
                 }
             ]
         }
