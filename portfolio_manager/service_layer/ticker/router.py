@@ -53,14 +53,16 @@ async def start_ticker_message_queue():
             sys.stderr.flush()
 
             for key, value in data.items():
-                bootstrap.ticker_repository.update_one(ticker=TickerSchema(symbol=key, price=value))
+                ticker = TickerSchema(symbol=key, price=value)
+                await bootstrap.ticker_repository.update_one(ticker=ticker)
+                await bootstrap.portfolio_repository.respond_to_price_change(ticker=ticker)
         
     connection = await connect_to_rabbit_mq()
 
     print(connection)
     
     channel = await connection.channel()
-    queue = await channel.declare_queue("my_queue")
+    queue = await channel.declare_queue("tick_update")
 
     await queue.consume(on_message)
     print("Connected to RabbitMQ")
