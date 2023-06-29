@@ -31,7 +31,7 @@ class Portfolio(BaseModel):
         if position.shares < shares:
             return False
         
-        cash += position.ticker.price * shares
+        self.cash += position.ticker.price * shares
         position.shares -= shares
         if position.shares == 0:
             self.positions.remove(position)

@@ -27,7 +27,8 @@ async def update_ticker(
     ticker: TickerSchema, 
     bootstrap: Bootstrap = Depends(get_bootstrap),
 ) -> SuccessSchema:
-    result = await bootstrap.ticker_repository.update_one(ticker=ticker)
+    result = await bootstrap.ticker_repository.update_one(ticker=ticker) 
+    await bootstrap.portfolio_repository.respond_to_price_change(ticker=ticker)
     if not result:
         raise HTTPException(status_code=404, detail="Ticker not found")
     return {"success": result}

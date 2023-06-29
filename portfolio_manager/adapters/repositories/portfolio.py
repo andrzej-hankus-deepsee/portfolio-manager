@@ -40,11 +40,12 @@ class PortfolioRepository(AbstractPortfolioRepository):
     async def respond_to_price_change(self, ticker: Ticker) -> bool:
         for portfolio in self.portfolios:
             for position in portfolio.positions:
-                if position.symbol == ticker.symbol and ticker.price > 1.1 * position.buying_price:
-                    shares_to_sell = int((((position.buying_price/ticker.price)-1)/2)*position.shares)
+                if position.ticker.symbol == ticker.symbol and ticker.price > 1.1 * position.buying_price:
+                    percent_of_shares_to_sell = (((ticker.price/position.buying_price)-1.0)/2.0)
+                    shares_to_sell = int(percent_of_shares_to_sell*position.shares)
                     if shares_to_sell <= 1:
                         shares_to_sell = 1
-                    portfolio.sell(position, position.shares*.5)
+                    portfolio.sell(position, shares_to_sell)
 
     async def create_one(self, portfolio: Portfolio) -> bool:
         id_ = len(self.portfolios) + 1
