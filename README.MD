@@ -1,3 +1,23 @@
+# Letter to reviewer
+```
+Hi!
+I have been working on this project for a few days now. 
+However, I must admit that the database is still fake, which is my biggest regret. 
+Nevertheless, I do not believe that waiting would be beneficial for the process.
+I have added tests to the project. If this were a real project, 
+I would focus on increasing their coverage and refactoring the test structure.
+As a side note, this is my first project using fastAPI. 
+I decided to follow the given template. 
+Usually, I work with Django. 
+The Schema/Model implementation in this form is new to me, 
+and I feel that it would require improvements 
+if I had connected it to a real database.
+Thank you for your time and consideration.
+
+Best regards,
+Jakub Wysocki
+```
+
 # How to run
 Make sure you have installed Docker and running docker deamon.
   - To run the application use `docker-compose up --build`
@@ -12,7 +32,7 @@ Make sure you have installed Docker and running docker deamon.
   - all the prices (tickers) should be recorded in the system in the system
   - the price changes may impact the portfolio
     
-- [ ] When the price of the stock in users portfolio changes significantly the portfolio is rebalanced
+- [x] When the price of the stock in users portfolio changes significantly the portfolio is rebalanced
   - if stock that is in portfolio gained more than 10% in value the system sells 50% of the gain
     - the gained cash should be added to cash in portfolio
     - the position should be reduced
