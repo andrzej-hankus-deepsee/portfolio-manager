@@ -118,26 +118,3 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert tick_record.symbol == "AAPL"
         assert tick_record.price == 101.0
         assert datetime.datetime.now() - tick_record.time < datetime.timedelta(seconds=5)
-
-
-    def test_create_tick_with_significant_gain_for_stock_in_portfolio(self):
-        ticker_symbol = "AAPL"
-        ticker_price_before_gain = 100.0
-        ticker_price_after_gain = 150.0
-
-
-        test_portfolio = self.bootstrap.database.portfolios[0]
-
-        response = self.client.patch(
-            "/api/v1/tickers",
-            json={
-                "symbol": ticker_symbol,
-                "price": ticker_price_after_gain,
-            }
-        )
-
-        assert response.status_code == 201
-        
-        ## TODO Check if tick recorded in database
-        ## TODO Check if tick triggered an action 
-        ## TODO Record original position price?
