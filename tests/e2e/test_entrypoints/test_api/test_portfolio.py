@@ -12,6 +12,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                 "cash": 100000.00,
                 "positions": [
                     {
+                        'buying_price': 90.0,
                         'shares': 100,
                         'ticker': {
                             'symbol': "AAPL",
@@ -19,13 +20,15 @@ class TestExchangeFeed(BaseE2ETestCase):
                         }
                     },
                     {
+                        'buying_price': 40.0,
                         'shares': 50,
                         'ticker': {
                             'symbol': "CMG",
                             'price': 50.0
                         }
                     }
-                ]
+                ],
+                "orders": []
             }
         )
 
@@ -43,14 +46,17 @@ class TestExchangeFeed(BaseE2ETestCase):
                 cash=100000.00,
                 positions=[
                     Position(
+                        buying_price=90.0,
                         ticker=tickers[0],
                         shares=100,
                     ),
                     Position(
+                        buying_price=40.0,
                         ticker=tickers[1],
                         shares=50,
                     )
-                ]
+                ],
+                orders=[]
             ),
             Portfolio(
                 id=2,
@@ -58,14 +64,17 @@ class TestExchangeFeed(BaseE2ETestCase):
                 cash=100000.00,
                 positions=[
                     Position(
+                        buying_price=90.0,
                         ticker=tickers[0],
                         shares=100,
                     ),
                     Position(
+                        buying_price=40.0,
                         ticker=tickers[1],
                         shares=50,
                     )
-                ]
+                ],
+                orders=[]
             )
         ]
 
@@ -81,8 +90,10 @@ class TestExchangeFeed(BaseE2ETestCase):
                     "id": 1,
                     "name": 'portfolio-1',
                     "cash": 100000.00,
+                    'orders': [],
                     "positions": [
                         {
+                            'buyingPrice': 90.0,
                             'shares': 100,
                             'ticker': {
                                 'symbol': "AAPL",
@@ -90,6 +101,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                             }
                         },
                         {
+                            'buyingPrice': 40.0,
                             'shares': 50,
                             'ticker': {
                                 'symbol': "CMG",
@@ -111,8 +123,10 @@ class TestExchangeFeed(BaseE2ETestCase):
             "id": 1,
             "name": 'portfolio-1',
             "cash": 100000.00,
+            'orders': [],
             "positions": [
                 {
+                    'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
                         'symbol': "AAPL",
@@ -120,6 +134,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     }
                 },
                 {
+                    'buyingPrice': 40.0,
                     'shares': 50,
                     'ticker': {
                         'symbol': "CMG",
@@ -145,14 +160,16 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'shares': 100,
                     'ticker': {
                         'symbol': "AAPL",
-                        'price': 100.0
+                        'price': 100.0,
+                        'buyingPrice': 90.0
                     }
                 },
                 {
                     'shares': 50,
                     'ticker': {
                         'symbol': "CMG",
-                        'price': 50.0
+                        'price': 50.0,
+                        'buyingPrice': 90.0
                     }
                 }
             ]
@@ -183,14 +200,16 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'ticker': {
                         'symbol': "AAPL",
                         'price': 101.0
-                    }
+                    },
+                    'buyingPrice': 90.0
                 },
                 {
                     'shares': 50,
                     'ticker': {
                         'symbol': "CMG",
                         'price': 50.0
-                    }
+                    },
+                    'buyingPrice': 90.0
                 }
             ]
         }

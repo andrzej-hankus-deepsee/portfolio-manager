@@ -44,12 +44,15 @@ class BaseIntegrationTestCase(IsolatedAsyncioTestCase):
                     Position(
                         ticker=tickers[0],
                         shares=100,
+                        buying_price=90.0,
                     ),
                     Position(
                         ticker=tickers[1],
                         shares=50,
+                        buying_price=40.0,
                     )
-                ]
+                ],
+                orders=[]
             )
         ]
 

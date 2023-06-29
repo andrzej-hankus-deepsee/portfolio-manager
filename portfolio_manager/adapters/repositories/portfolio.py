@@ -1,7 +1,7 @@
 import abc
 
 from portfolio_manager.detabase import Database
-from portfolio_manager.domain.models import Portfolio
+from portfolio_manager.domain.models import Portfolio, Ticker
 
 
 class AbstractPortfolioRepository(abc.ABC):

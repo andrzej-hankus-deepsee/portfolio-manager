@@ -140,3 +140,4 @@ class TestExchangeFeed(BaseE2ETestCase):
         
         ## TODO Check if tick recorded in database
         ## TODO Check if tick triggered an action 
+        ## TODO Record original position price?
