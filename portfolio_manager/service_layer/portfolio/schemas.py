@@ -26,7 +26,15 @@ class CreatePortfolioSchema(BaseSchema):
 
 class PortfoliosSchema(BaseSchema):
     portfolios: list[PortfolioSchema]
-
+    
+class PortfolioIdSchema(BaseSchema):
+    portfolio_id : int
+    
 class OrderSchema(BaseSchema):
     portfolio_id : int 
     position_order : PositionOrderSchema
+
+class CashScema(BaseSchema):
+    portfolio_id : int
+    cash: float
+

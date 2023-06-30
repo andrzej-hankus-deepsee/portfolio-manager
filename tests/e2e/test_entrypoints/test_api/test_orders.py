@@ -1,4 +1,3 @@
-from portfolio_manager.domain.models import Position, Portfolio
 from tests import BaseE2ETestCase
 
 
@@ -36,7 +35,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/1",
+            "/api/v1/portfolios/order/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -121,7 +120,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/1",
+            "/api/v1/portfolios/order/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -255,7 +254,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/1",
+            "/api/v1/portfolios/order/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -333,7 +332,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/1",
+            "/api/v1/portfolios/order/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {

@@ -36,7 +36,7 @@ async def get_portfolio(
     
     return portfolio
 
-@router.post("/order/{id}",status_code=201)
+@router.post("/order/",status_code=201)
 async def create_order(
     order_data: OrderSchema,
     bootstrap: Bootstrap = Depends(get_bootstrap),
