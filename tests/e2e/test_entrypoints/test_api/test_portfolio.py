@@ -285,3 +285,146 @@ class TestExchangeFeed(BaseE2ETestCase):
                 }
             ]
         }
+    
+
+    def test_add_cash_portfolio(self):
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.post(
+            "/api/v1/portfolios/add-cash/",
+            json={
+                "portfolioId": 1,
+                "cash": 10000
+            }
+        )
+
+        assert response.status_code == 200
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 110000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+    
+    def test_pay_out_cash_portfolio(self):
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.post(
+            "/api/v1/portfolios/pay-out-cash/",
+            json={
+                "portfolioId": 1,
+                "cash": 10000
+            }
+        )
+
+        assert response.status_code == 200
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 90000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }

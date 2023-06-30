@@ -36,7 +36,7 @@ async def get_portfolio(
     
     return portfolio
 
-@router.post("/order/",status_code=201)
+@router.post("/orders/",status_code=201)
 async def create_order(
     order_data: OrderSchema,
     bootstrap: Bootstrap = Depends(get_bootstrap),
@@ -89,7 +89,7 @@ async def pay_out_cash(
     return {"success": True}
 
 
-@router.delete("/orders/",status_code=200)
+@router.post("/orders-remove-all/",status_code=200)
 async def delete_orders(
     args: PortfolioIdSchema,
     bootstrap: Bootstrap = Depends(get_bootstrap),
@@ -105,7 +105,7 @@ async def delete_orders(
     
     portfolio.orders = []
 
-    portfolio.cash -= cash_from_orders
+    portfolio.cash += cash_from_orders
 
     # TODO save to DB here
     return {"success": True}

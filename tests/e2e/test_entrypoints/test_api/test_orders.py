@@ -35,7 +35,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/",
+            "/api/v1/portfolios/orders/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -120,7 +120,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/",
+            "/api/v1/portfolios/orders/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -254,7 +254,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/",
+            "/api/v1/portfolios/orders/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -332,7 +332,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         }
 
         response = self.client.post(
-            "/api/v1/portfolios/order/",
+            "/api/v1/portfolios/orders/",
             json={
                 "portfolioId": 1,
                 "positionOrder": {
@@ -420,6 +420,130 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'ticker': {
                         'symbol': "APPL",
                         'price': 91.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+    def test_placing_order_delete_order(self):
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.post(
+            "/api/v1/portfolios/orders/",
+            json={
+                "portfolioId": 1,
+                "positionOrder": {
+                    "ticker": {
+                    "symbol": "APPL"
+                    },
+                    "shares": 4,
+                    "maxPrice": 90
+                }
+            }
+        )
+
+        assert response.status_code == 201
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 99640.00,
+            'orders': [
+                {
+                    'maxPrice': 90.0,
+                    'shares': 4,
+                    'ticker': {
+                        'symbol': "APPL"
+                    }
+                }
+                ],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
+                    }
+                },
+                {
+                    'buyingPrice': 40.0,
+                    'shares': 50,
+                    'ticker': {
+                        'symbol': "CMG",
+                        'price': 50.0
+                    }
+                }
+            ]
+        }
+
+        response = self.client.post(
+            "/api/v1/portfolios/orders-remove-all/",
+            json={
+                "portfolioId": 1
+            }
+        )
+
+        assert response.status_code == 200
+
+        response = self.client.get(
+            "/api/v1/portfolios/1"
+        )
+
+        assert response.status_code == 200
+        assert response.json() == {
+            "id": 1,
+            "name": 'portfolio-1',
+            "cash": 100000.00,
+            'orders': [],
+            "positions": [
+                {
+                    'buyingPrice': 90.0,
+                    'shares': 100,
+                    'ticker': {
+                        'symbol': "APPL",
+                        'price': 100.0
                     }
                 },
                 {
