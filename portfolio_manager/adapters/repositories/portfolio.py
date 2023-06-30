@@ -57,10 +57,6 @@ class PortfolioRepository(AbstractPortfolioRepository):
                 if position_order.ticker.symbol == ticker.symbol:
                     position_order.ticker = ticker ## TODO if we would use database this sould not be a problem
 
-                if position_order.ticker.symbol == ticker.symbol:
-                    print(position_order.ticker.symbol)
-                    print(ticker.price)
-                    print(position_order.max_price)
                 if position_order.ticker.symbol == ticker.symbol and ticker.price <= position_order.max_price:
                     portfolio.buy(position_order)
 
