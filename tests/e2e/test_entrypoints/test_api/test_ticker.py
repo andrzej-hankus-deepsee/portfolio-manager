@@ -19,7 +19,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert len(tickers) == 3
         assert tickers == [
             Ticker(
-                symbol="AAPL",
+                symbol="APPL",
                 price=100.0,
             ),
             Ticker(
@@ -58,7 +58,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert len(tickers) == 3
         assert tickers == [
             Ticker(
-                symbol="AAPL",
+                symbol="APPL",
                 price=100.0,
             ),
             Ticker(
@@ -74,11 +74,11 @@ class TestExchangeFeed(BaseE2ETestCase):
     def test_tick_recording(self):
 
         tickers = self.bootstrap.database.tickers
-        tickers_records = self.bootstrap.database.tickers_records["AAPL"]
+        tickers_records = self.bootstrap.database.tickers_records["APPL"]
         assert len(tickers) == 2
         assert tickers == [
             Ticker(
-                symbol="AAPL",
+                symbol="APPL",
                 price=100.0,
             ),
             Ticker(
@@ -92,7 +92,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         response = self.client.patch(
             "/api/v1/tickers",
             json={
-                "symbol": "AAPL",
+                "symbol": "APPL",
                 "price": 101.0,
             }
         )
@@ -102,7 +102,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         assert len(tickers) == 2
         assert tickers == [
             Ticker(
-                symbol="AAPL",
+                symbol="APPL",
                 price=101.0,
             ),
             Ticker(
@@ -115,6 +115,6 @@ class TestExchangeFeed(BaseE2ETestCase):
         
         tick_record = tickers_records[-1]
 
-        assert tick_record.symbol == "AAPL"
+        assert tick_record.symbol == "APPL"
         assert tick_record.price == 101.0
         assert datetime.datetime.now() - tick_record.time < datetime.timedelta(seconds=5)

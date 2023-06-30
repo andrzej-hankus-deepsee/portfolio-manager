@@ -12,7 +12,7 @@ class AbstractTickerRepository(abc.ABC):
         raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
-    async def get_one(self, id_: int) -> Ticker:
+    async def get_one(self, symbol: str) -> Ticker | None:
         raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
@@ -25,6 +25,10 @@ class TickerRepository(AbstractTickerRepository):
         self.tickers = db.tickers
         self.records = db.tickers_records
     
+    async def get_many(self, page: int | None = None, size: int | None = None) -> list[Ticker]:
+        ## TODO Add paging 
+        return self.tickers
+
     def record_tick(self, ticker):
         new_record = TickerRecord(symbol=ticker.symbol, price=ticker.price, time=datetime.datetime.now())
         if not ticker.symbol in self.records.keys():
@@ -42,7 +46,7 @@ class TickerRepository(AbstractTickerRepository):
         self.record_tick(ticker)
         return True
 
-    async def get_one(self, symbol: int) -> Ticker | None:
+    async def get_one(self, symbol: str) -> Ticker | None:
         for ticker in self.tickers:
             if ticker.symbol == symbol:
                 return ticker

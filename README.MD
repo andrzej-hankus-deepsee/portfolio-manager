@@ -22,6 +22,10 @@ Jakub Wysocki
 Make sure you have installed Docker and running docker deamon.
   - To run the application use `docker-compose up --build`
   - To run the tests use `docker-compose -f ./docker-compose-run-tests.yaml up --build`
+
+Before creating a porfolio please add tickers wit APPL and CMG symbols.
+To create the ticker go to http://localhost:8001/api/v1/docs#/tickers/create_ticker_api_v1_tickers__post 
+Those two are mocked by stock exchange mocker and will be updated.
 # Requirements
 
 - [ ] The user is able to define his initial investment

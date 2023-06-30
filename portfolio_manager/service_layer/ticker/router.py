@@ -5,7 +5,7 @@ import json
 
 from fastapi import APIRouter, Depends, HTTPException
 
-from portfolio_manager.service_layer.ticker.schemas import TickerSchema
+from portfolio_manager.service_layer.ticker.schemas import TickerSchema, TickersSchema
 from portfolio_manager.shared.schemas import SuccessSchema
 from portfolio_manager.bootstrap import get_bootstrap, Bootstrap
 
@@ -21,6 +21,11 @@ async def create_ticker(
         raise HTTPException(status_code=409, detail="Ticker already exists")
     return {"success": result}
 
+@router.get("/")
+async def get_tickers(
+        bootstrap: Bootstrap = Depends(get_bootstrap),
+) -> TickersSchema:
+    return {"tickers": await bootstrap.ticker_repository.get_many()}
 
 @router.patch("/",status_code=201)
 async def update_ticker(

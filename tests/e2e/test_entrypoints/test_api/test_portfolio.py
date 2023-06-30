@@ -15,7 +15,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                         'buying_price': 90.0,
                         'shares': 100,
                         'ticker': {
-                            'symbol': "AAPL",
+                            'symbol': "APPL",
                             'price': 100.0
                         }
                     },
@@ -96,7 +96,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                             'buyingPrice': 90.0,
                             'shares': 100,
                             'ticker': {
-                                'symbol': "AAPL",
+                                'symbol': "APPL",
                                 'price': 100.0
                             }
                         },
@@ -129,7 +129,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
-                        'symbol': "AAPL",
+                        'symbol': "APPL",
                         'price': 100.0
                     }
                 },
@@ -160,7 +160,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
-                        'symbol': "AAPL",
+                        'symbol': "APPL",
                         'price': 100.0
                     }
                 },
@@ -178,7 +178,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         response = self.client.patch(
             "/api/v1/tickers",
             json={
-                "symbol": "AAPL",
+                "symbol": "APPL",
                 "price": 99.0,
             }
         )
@@ -200,7 +200,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
-                        'symbol': "AAPL",
+                        'symbol': "APPL",
                         'price': 99.0
                     }
                 },
@@ -231,7 +231,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'buyingPrice': 90.0,
                     'shares': 100,
                     'ticker': {
-                        'symbol': "AAPL",
+                        'symbol': "APPL",
                         'price': 100.0
                     }
                 },
@@ -249,7 +249,7 @@ class TestExchangeFeed(BaseE2ETestCase):
         response = self.client.patch(
             "/api/v1/tickers",
             json={
-                "symbol": "AAPL",
+                "symbol": "APPL",
                 "price": 101.0, # 101 / 90 = 1.12 it is 12% gain so more than 10%, so the system should sell 6% of shares
             }
         )
@@ -271,7 +271,7 @@ class TestExchangeFeed(BaseE2ETestCase):
                     'buyingPrice': 90.0,
                     'shares': 94,
                     'ticker': {
-                        'symbol': "AAPL",
+                        'symbol': "APPL",
                         'price': 101.0
                     }
                 },

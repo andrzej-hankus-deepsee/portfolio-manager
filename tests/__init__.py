@@ -25,7 +25,7 @@ class BaseIntegrationTestCase(IsolatedAsyncioTestCase):
         self.bootstrap.database.tickers = [
             Ticker(
                 id=1,
-                symbol="AAPL",
+                symbol="APPL",
                 price=100.0,
             ),
             Ticker(

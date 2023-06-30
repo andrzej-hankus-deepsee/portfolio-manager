@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 import datetime
+from fastapi import HTTPException
 
 class Ticker(BaseModel):
     symbol: str = Field(..., unique=True)
@@ -36,4 +37,42 @@ class Portfolio(BaseModel):
         if position.shares == 0:
             self.positions.remove(position)
 
+        return True
+
+    def create_order(self, ticker: Ticker, shares: int, max_price: float) -> bool:
+        if shares * max_price > self.cash:
+            return False
+        
+        self.cash -= shares * max_price
+
+        order = PositionOrder(
+            ticker=ticker,
+            shares=shares,
+            max_price=max_price
+        )
+
+        self.orders.append(order)
+        if ticker.price < max_price:
+            self.buy(order)
+        
+        return True
+
+    def buy(self, order: PositionOrder) -> bool:
+        if not order in self.orders:
+            return False
+        if order.ticker.price > order.max_price:
+            return False
+
+        position = Position(
+            ticker=order.ticker,
+            shares=order.shares,
+            buying_price=order.ticker.price 
+            )
+        
+        change = (order.max_price - order.ticker.price)*order.shares
+        self.cash += change
+        
+        self.positions.append(position)
+        
+        self.orders.remove(order)
         return True
