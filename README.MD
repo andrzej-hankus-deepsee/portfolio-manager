@@ -4,14 +4,11 @@ Hi!
 I have been working on this project for a few days now. 
 However, I must admit that the database is still fake, which is my biggest regret. 
 Nevertheless, I do not believe that waiting would be beneficial for the process.
-I have added tests to the project. If this were a real project, 
-I would focus on increasing their coverage and refactoring the test structure.
+If this were a real project, I would focus on increasing test coverage and refactoring the test structure.
 As a side note, this is my first project using fastAPI. 
-I decided to follow the given template. 
-Usually, I work with Django. 
+I decided to follow the given template. Usually, I work with Django. 
 The Schema/Model implementation in this form is new to me, 
-and I feel that it would require improvements 
-if I had connected it to a real database.
+and I feel that it would require improvements if I had connected it to a real database.
 Thank you for your time and consideration.
 
 Best regards,
@@ -65,7 +62,7 @@ curl -X 'POST' \
 
 # Requirements
 
-- [ ] The user is able to define his initial investment
+- [x] The user is able to define his initial investment
   - the cash
   - the stocks
 
