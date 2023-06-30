@@ -25,7 +25,44 @@ Make sure you have installed Docker and running docker deamon.
 
 Before creating a porfolio please add tickers wit APPL and CMG symbols.
 To create the ticker go to http://localhost:8001/api/v1/docs#/tickers/create_ticker_api_v1_tickers__post 
+or you can use those two commands 
+```
+curl -X 'POST' \
+  'http://localhost:8001/api/v1/tickers/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "symbol": "APPL",
+  "price": 0
+}'
+
+curl -X 'POST' \
+  'http://localhost:8001/api/v1/tickers/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "symbol": "CMG",
+  "price": 0
+}'
+```
 Those two are mocked by stock exchange mocker and will be updated.
+
+To create portfolio with 10000 cash use this command.
+```
+curl -X 'POST' \
+  'http://localhost:8001/api/v1/portfolios/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "name": "string",
+  "cash": 10000,
+  "positions": [
+  ],
+  "orders": [
+  ]
+}'
+```
+
 # Requirements
 
 - [ ] The user is able to define his initial investment
